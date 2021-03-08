@@ -21,8 +21,7 @@ packageList += [
 	Package(
 		name: "tzdata",
 		version: "2019c",
-		release: "1.amzn2",
-		arch: "noarch"
+		release: "1.amzn2"
 	)
 ]
 
@@ -45,8 +44,6 @@ PACKAGE_NAMES = \\
 
 try dbQueue.read { db in
 	for var package in packageList {
-		package.arch = arch
-
 		if let rows = try Row.fetchOne(db, sql: "SELECT pkgId FROM packages WHERE (\"version\" = '\(package.version)') AND (\"name\" = '\(package.name)') AND (\"release\" = '\(package.release)') AND (\"arch\" = '\(package.name == "tzdata" ? "noarch" : arch)');") {
 
 			print(rows["pkgId"]! + "/\(package.name)-\(package.version)-\(package.release).\(package.name == "tzdata" ? "noarch" : arch).\(package.filenameExtension) \\")

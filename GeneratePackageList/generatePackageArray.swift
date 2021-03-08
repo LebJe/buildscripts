@@ -1,15 +1,6 @@
 #!/usr/bin/env swift
 
-import Darwin.C
 import Foundation
-
-struct Package {
-	let name: String
-	let version: String
-	let release: String
-	let filenameExtension: String = "rpm"
-	let arch: String = "x86_64"
-}
 
 extension StringProtocol {
     subscript(offset: Int) -> Character {
@@ -122,8 +113,7 @@ for package in packageList {
 		Package(
 			name: "\(name)",
 			version: "\(version)",
-			release: "\(release)",
-			arch: "\(arch)"
+			release: "\(release)"
 		),
 	"""
 
