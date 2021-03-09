@@ -1,9 +1,4 @@
-//
-//  PackageStruct.swift
-//  
-//
-//  Created by Jeff Lebrun on 3/8/21.
-//
+// Copyright © 2021 ZeeZide GmbH. All rights reserved.
 
 struct Package {
 	init(name: String, version: String, release: String, filenameExtension: String = "rpm") {

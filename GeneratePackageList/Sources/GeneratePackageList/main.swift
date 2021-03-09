@@ -1,3 +1,5 @@
+// Copyright © 2021 ZeeZide GmbH. All rights reserved.
+
 import GRDB
 
 let config = Configuration()
@@ -17,15 +19,11 @@ if CommandLine.argc < 3 {
 
 let dbQueue = try DatabaseQueue(path: "\(CommandLine.arguments[1])")
 
-packageList += [
-	Package(
-		name: "tzdata",
-		version: "2019c",
-		release: "1.amzn2"
-	)
-]
+addExtraPackages()
 
 let arch = CommandLine.arguments[2]
+
+let packagesWithNoArch = ["tzdata"]
 
 print("""
 # packagelist.make
@@ -43,8 +41,8 @@ PACKAGE_NAMES = \\
 """)
 
 try dbQueue.read { db in
-	for var package in packageList {
-		if let rows = try Row.fetchOne(db, sql: "SELECT pkgId FROM packages WHERE (\"version\" = '\(package.version)') AND (\"name\" = '\(package.name)') AND (\"release\" = '\(package.release)') AND (\"arch\" = '\(package.name == "tzdata" ? "noarch" : arch)');") {
+	for package in packageList {
+		if let rows = try Row.fetchOne(db, sql: "SELECT pkgId FROM packages WHERE (\"version\" = '\(package.version)') AND (\"name\" = '\(package.name)') AND (\"release\" = '\(package.release)') AND (\"arch\" = '\(packagesWithNoArch.contains(package.name) ? "noarch" : arch)');") {
 
 			print(rows["pkgId"]! + "/\(package.name)-\(package.version)-\(package.release).\(package.name == "tzdata" ? "noarch" : arch).\(package.filenameExtension) \\")
 		} else {

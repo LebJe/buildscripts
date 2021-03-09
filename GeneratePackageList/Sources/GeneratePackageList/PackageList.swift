@@ -1,3 +1,5 @@
+// Copyright © 2021 ZeeZide GmbH. All rights reserved.
+
 // This file was generated using generatePackageArray.swift - DO NOT EDIT
 
 var packageList = [
