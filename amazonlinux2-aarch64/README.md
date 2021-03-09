@@ -3,7 +3,7 @@
        align="right" width="128" height="128" />
 </h2>
 
-The things necessary to build an x86_64 AmazonLinux 2 toolchain.
+The things necessary to build an AArch64 AmazonLinux 2 toolchain.
 
 The root directory contains things to build a toolchain locally.
 The `patch-5.3` directory contains the things used in an actual

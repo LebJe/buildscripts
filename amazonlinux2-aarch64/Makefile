@@ -14,7 +14,7 @@ ACTUAL_DESTINATION_PREFIX=/usr/local
 
 # 5.3 release URL:
 # https://swift.org/builds/swift-5.3-release/amazonlinux2/swift-5.3-RELEASE/swift-5.3-RELEASE-amazonlinux2.tar.gz
-VERSION=5.3
+VERSION=5.3.3
 BRANCH=swift-$(VERSION)-release
 SNAPSHOT=RELEASE
 HOST_VERSION=$(VERSION)
@@ -30,9 +30,9 @@ TARBALL_VERSION=$(VERSION)
 ARCH=aarch64
 TARGET=$(ARCH)-unknown-linux
 LINUX_TARGET_TRIPLE=$(ARCH)-linux-gnu
-PLATFORM=amazonlinux2
+PLATFORM=amazon-linux-2
 #PACKAGE_URL=https://swift.org/builds/$(BRANCH)/$(subst .,,$(PLATFORM))/swift-$(TARBALL_VERSION)-$(SNAPSHOT)/swift-$(TARBALL_VERSION)-$(SNAPSHOT)-$(PLATFORM).tar.gz
-PACKAGE_URL=https://github.com/futurejones/swift-arm64/releases/download/v5.3.3-RELEASE/swiftlang-5.3.3-amazon-linux-2-release-aarch64-4-2021-02-01.tar.gz
+PACKAGE_URL=https://github.com/futurejones/swift-arm64/releases/download/v$(VERSION)-RELEASE/swiftlang-$(VERSION)-$(PLATFORM)-release-$(ARCH)-4-2021-02-01.tar.gz
 
 HOST_SWIFT_TOOLCHAIN=/usr/local/lib/swift/xctoolchains/$(ARCH)-apple-darwin/$(HOST_VERSION)-current/swift.xctoolchain
 HOST_X_LLD=$(SWIFT_LIB_DIR)/clang-llvm/${HOST_PLATFORM}-apple-darwin/8.0.0/bin/lld
@@ -167,7 +167,7 @@ testbuild:
 test-rebuild:
 	cd my-test-app && swift build --destination $(BUILD_DIR)/swift-$(VERSION)-$(PLATFORM).xtoolchain/destination.json
 
-DOCKER_IMAGE=swift:5.2.4-amazonlinux2
+DOCKER_IMAGE=th089/swift:5.3.2-amazonlinux2
 
 # ld.so doesn't seem to be setup properly, ld.so.conf.d doesn't include
 # the `/usr/lib/swift/linux`
@@ -175,6 +175,7 @@ testbuild-run:
 	docker run --rm -t 			\
 		--name test-x-build		\
 		--volume "$(PWD)/my-test-app/.build/debug:/run" \
+		--platform linux/arm64  \
 		--workdir "/run" 		\
 		$(DOCKER_IMAGE) 		\
 		bash -c "LD_LIBRARY_PATH=/usr/lib/swift/linux ./my-test-app"
